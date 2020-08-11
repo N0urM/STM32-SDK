@@ -22,7 +22,7 @@
         RCC_PLL_HSE_DIV2
         RCC_PLL_HSE
     */
-    #define PLL_SRC     RCC_PLL_HSI_DIV2
+    #define PLL_SRC     RCC_PLL_HSE_DIV2
 
     /* Choose multiplier
         integer value:  2 ~ 16 

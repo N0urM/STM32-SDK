@@ -7,25 +7,18 @@
 #ifndef     RCC_PRIVATE_H
 #define     RCC_PRIVATE_H
 
-// Buses types
-typedef enum {
-    AHB, 
-    APB1,
-    APB2,
-}BUS_ID;
-
 /*************** Registers definitions ****************/
-#define  RCC_CR             *((volatile u32) 0x40021000)
-#define  RCC_CFGR           *((volatile u32) 0x40021004)
-#define  RCC_CIR            *((volatile u32) 0x40021008)
-#define  RCC_APB2RSTR       *((volatile u32) 0x4002100c)
-#define  RCC_APB1RSTR       *((volatile u32) 0x40021010)
-#define  RCC_AHBENR         *((volatile u32) 0x40021014)
-#define  RCC_APB2ENR        *((volatile u32) 0x40021018)
-#define  RCC_APB1ENR        *((volatile u32) 0x4002101c)
-#define  RCC_BDCR           *((volatile u32) 0x40021020)
-#define  RCC_CSR            *((volatile u32) 0x40021024)
-#define  RCC_AHBSTR         *((volatile u32) 0x40021028)
+#define  RCC_CR             *((volatile u32 *) 0x40021000)
+#define  RCC_CFGR           *((volatile u32 *) 0x40021004)
+#define  RCC_CIR            *((volatile u32 *) 0x40021008)
+#define  RCC_APB2RSTR       *((volatile u32 *) 0x4002100c)
+#define  RCC_APB1RSTR       *((volatile u32 *) 0x40021010)
+#define  RCC_AHBENR         *((volatile u32 *) 0x40021014)
+#define  RCC_APB2ENR        *((volatile u32 *) 0x40021018)
+#define  RCC_APB1ENR        *((volatile u32 *) 0x4002101c)
+#define  RCC_BDCR           *((volatile u32 *) 0x40021020)
+#define  RCC_CSR            *((volatile u32 *) 0x40021024)
+#define  RCC_AHBSTR         *((volatile u32 *) 0x40021028)
 
 
 // Clock source definitions 
@@ -105,9 +98,9 @@ typedef enum {
 
 
 #define RCC_CFGR_PLLMUL0 18
-#define RCC_CFGR_PLLMUL0 19
-#define RCC_CFGR_PLLMUL0 20
-#define RCC_CFGR_PLLMUL0 21
+#define RCC_CFGR_PLLMUL1 19
+#define RCC_CFGR_PLLMUL2 20
+#define RCC_CFGR_PLLMUL3 21
 
 #define RCC_CFGR_OTGFSPRE 22
 
@@ -115,7 +108,11 @@ typedef enum {
 #define RCC_CFGR_MCO1   25
 #define RCC_CFGR_MCO2   26
 #define RCC_CFGR_MCO3   27
-/****************** AHB Enable Register *****************/
+
+/************** Public Constants ***********************/
+
+
+/***********AHB Enable Register bits*****************/
 
 #define RCC_AHBENR_DMA1EN       0
 #define RCC_AHBENR_DMA2EN       1
@@ -125,23 +122,23 @@ typedef enum {
 #define RCC_AHBENR_FSMCEN       8
 #define RCC_AHBENR_SDIOEN       10
 
-/****************** APB2 Enable Register *****************/
+/********** APB2 Enable Register bits *****************/
 
 #define RCC_APB2ENR_AFIOEN         0
-#define RCC_APB2ENR_IOPAEN         2 
-#define RCC_APB2ENR_IOPBEN         3 
-#define RCC_APB2ENR_IOPCEN         4 
-#define RCC_APB2ENR_IOPDEN         5 
-#define RCC_APB2ENR_IOPEEN         6 
-#define RCC_APB2ENR_IOPFEN         7 
+#define RCC_APB2ENR_IOPAEN         2
+#define RCC_APB2ENR_IOPBEN         3
+#define RCC_APB2ENR_IOPCEN         4
+#define RCC_APB2ENR_IOPDEN         5
+#define RCC_APB2ENR_IOPEEN         6
+#define RCC_APB2ENR_IOPFEN         7
 #define RCC_APB2ENR_IOPGEN         8
 #define RCC_APB2ENR_ADC1EN         9
-#define RCC_APB2ENR_ADC2EN         10 
+#define RCC_APB2ENR_ADC2EN         10
 #define RCC_APB2ENR_TIM1EN         11
 #define RCC_APB2ENR_SPI1EN         12
 #define RCC_APB2ENR_TIM8EN         13
 #define RCC_APB2ENR_USART1EN       14
-#define RCC_APB2ENR_ADC3EN         15 
+#define RCC_APB2ENR_ADC3EN         15
 #define RCC_APB2ENR_TIM9EN         19
 #define RCC_APB2ENR_TIM10EN        20
 #define RCC_APB2ENR_TIM11EN        21
@@ -174,4 +171,4 @@ typedef enum {
 
 /*************************************************************/
 
-#endif  // Enf Of File
+#endif  // End Of File

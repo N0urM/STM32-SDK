@@ -11,7 +11,7 @@
 
 // 2- include interface file of needed lower layers
 
-// 3- include driver files 
+// 3- include driver files
 #include "RCC_interface.h"
 #include "RCC_private.h"
 #include "RCC_config.h"
@@ -36,9 +36,9 @@ void RCC_voidInitSystemClock(){
     #elif CLOCK_SRC == HSE_XTAL
 
         SET_BIT(RCC_CR , RCC_CR_HSEON);            // Enable External clock
-        while (!(RCC_CR & 1<<RCC_CR_HSERDY) );     // Wait till ready
+        while (!(RCC_CR & 1<<RCC_CR_HSERDY));    	 // Wait till ready
 
-        CLR_BIT(RCC_CR , RCC_CR_HSEPYB);           // Disbale ByPass
+        CLR_BIT(RCC_CR , RCC_CR_HSEPYB);           // Disable ByPass
         
         // Turn on External Clock
         CLR_BIT (RCC_CFGR , RCC_CFGR_SW1);      
@@ -56,26 +56,32 @@ void RCC_voidInitSystemClock(){
         CLR_BIT (RCC_CFGR , RCC_CFGR_SW0);      
         CLR_BIT (RCC_CFGR , RCC_CFGR_SW1);
     
-        /********** TO DO PLL*****************/
 
     #elif CLOCK_SRC == PLL
 
         // init PLL MUL:
-        RCC_CFGR |=  ( (PLL_MUL - 2) << RCC_CFGR_PLLMUL0 )
+        RCC_CFGR |= (u32) ( (PLL_MUL - 2) << RCC_CFGR_PLLMUL0 );
         
         // Check External clock PreScalar & select clock source
         #if PLL_SRC == RCC_PLL_HSE_DIV2
-            SET_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  // Enable PreScalar
-            SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    // Select External source
-        #elif PLL_SRC == RCC_PLL_HSE
-            CLR_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  //Disable PreScalar
-            SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    // Select External source
-        #elif PLL_SRC == RCC_PLL_HSI_DIV2
-            CLR_BIT(RCC_CFGR  , RCC_CFGR_PLLSRC);   // Select Internal source
-        #endif
+            SET_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  	// Enable PreScalar
+            SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    	// Select External source
+            SET_BIT(RCC_CR , RCC_CR_HSEON);           	// Enable External clock
+            while (!(RCC_CR & 1<<RCC_CR_HSERDY));    	// Wait till ready
 
-        SET_BIT(RCC_CR , RCC_CR_PLLON);        // Enable PLL
-        while (RCC_CR & 1<<RCC_CR_PLLRDY);     // Wait till ready    
+        #elif PLL_SRC == RCC_PLL_HSE
+            CLR_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  	//Disable PreScalar
+            SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    	// Select External source
+            SET_BIT(RCC_CR , RCC_CR_HSEON);            	// Enable External clock
+            while (!(RCC_CR & 1<<RCC_CR_HSERDY));    	// Wait till ready
+
+        #elif PLL_SRC == RCC_PLL_HSI_DIV2
+            CLR_BIT(RCC_CFGR  , RCC_CFGR_PLLSRC);   	// Select Internal source
+            SET_BIT(RCC_CR , RCC_CR_HSION);             // Enable Internal clock
+            while ( !(RCC_CR & 1<<RCC_CR_HSIRDY) );     // Wait till ready
+        #endif
+        SET_BIT(RCC_CR , RCC_CR_PLLON);        			// Enable PLL
+        while ( !(RCC_CR & 1<<RCC_CR_PLLRDY) );     			// Wait till ready
 
         // Turn on PLL
         SET_BIT (RCC_CFGR , RCC_CFGR_SW1);
@@ -88,13 +94,13 @@ void RCC_voidEnableClock(BUS_ID copy_bus_id , u8 copy_periphiral_id){
     if (copy_periphiral_id <= 31){
         switch (copy_bus_id)
         {
-        case AHB:
+        case t_AHB:
             SET_BIT(RCC_AHBENR , copy_periphiral_id);
             break;  
-        case APB1:
+        case t_APB1:
             SET_BIT(RCC_APB1ENR , copy_periphiral_id);
             break;
-        case APB2:
+        case t_APB2:
             SET_BIT(RCC_APB2ENR , copy_periphiral_id);
             break;
         default:
@@ -112,13 +118,13 @@ void RCC_voidDisableClock(BUS_ID copy_bus_id , u8 copy_periphiral_id){
     if (copy_periphiral_id <= 31){
         switch (copy_bus_id)
         {
-        case AHB:
+        case t_AHB:
             CLR_BIT(RCC_AHBENR , copy_periphiral_id);
             break;  
-        case APB1:
+        case t_APB1:
             CLR_BIT(RCC_APB1ENR , copy_periphiral_id);
             break;
-        case APB2:
+        case t_APB2:
             CLR_BIT(RCC_APB2ENR , copy_periphiral_id);
             break;
         default:

@@ -9,6 +9,12 @@
 
 
 
+typedef enum {
+    t_AHB,
+    t_APB1,
+    t_APB2,
+}BUS_ID;
+
 // Select init option in the config file
 void RCC_voidInitSystemClock();
 
@@ -74,8 +80,8 @@ void RCC_voidInitSystemClock();
     RCC_APB1ENR_PWREN       
     RCC_APB1ENR_DACEN       
 */
-void RCC_voidEnableClock(BUS_ID copy_bus_id , u8 copy_periphiral_id);
-void RCC_voidDisableClock(BUS_ID copy_bus_id , u8 copy_periphiral_id);
+void RCC_voidEnableClock(BUS_ID copy_bus_id , u8 copy_prephiral_id );
+void RCC_voidDisableClock(BUS_ID , u8 );
 
 
-#endif  // Enf Of File
+#endif  // End Of File
