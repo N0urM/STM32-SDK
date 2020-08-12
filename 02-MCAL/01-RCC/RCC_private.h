@@ -25,7 +25,6 @@
 #define HSI         0
 #define HSE_RC      1
 #define HSE_XTAL    2
-#define PLL         3
 
 // PLL options 
 #define RCC_PLL_HSI_DIV2    0

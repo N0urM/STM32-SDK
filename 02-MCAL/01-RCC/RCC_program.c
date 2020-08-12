@@ -49,6 +49,7 @@ void RCC_voidInitSystemClock(){
         #endif     
 
     #elif CLOCK_SRC == HSI
+    
         RCC_CR &= ~(31 << RCC_CR_HSITRIM0);         // Clear 5 trimming bits
         RCC_CR |= (TRIM_VALUE << RCC_CR_HSITRIM0);  // Set the trimming value
         SET_BIT(RCC_CR , RCC_CR_HSION);             // Enable Internal clock
@@ -57,10 +58,9 @@ void RCC_voidInitSystemClock(){
         CLR_BIT (RCC_CFGR , RCC_CFGR_SW0);      
         CLR_BIT (RCC_CFGR , RCC_CFGR_SW1);
     
+    #endif
+    #if CLOCK_PLL == 1
 
-    #elif CLOCK_SRC == PLL
-
-       
         CLR_BIT(RCC_CR , RCC_CR_PLLON);        	                    // Disable PLL
         RCC_CFGR &= ~ (15 << RCC_CFGR_PLLMUL0);                     // Clear PLL MUL
         RCC_CFGR |= (u32) ( (PLL_MUL - 2) << RCC_CFGR_PLLMUL0 );    // init PLL MUL
@@ -69,20 +69,15 @@ void RCC_voidInitSystemClock(){
         #if PLL_SRC == RCC_PLL_HSE_DIV2
             SET_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  	// Enable PreScalar
             SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    	// Select External source
-            SET_BIT(RCC_CR , RCC_CR_HSEON);           	// Enable External clock
-            while (!(RCC_CR & 1<<RCC_CR_HSERDY));    	// Wait till ready
 
         #elif PLL_SRC == RCC_PLL_HSE
             CLR_BIT(RCC_CFGR , RCC_CFGR_PLLXTPRE);  	//Disable PreScalar
             SET_BIT(RCC_CFGR , RCC_CFGR_PLLSRC);    	// Select External source
-            SET_BIT(RCC_CR , RCC_CR_HSEON);            	// Enable External clock
-            while (!(RCC_CR & 1<<RCC_CR_HSERDY));    	// Wait till ready
 
         #elif PLL_SRC == RCC_PLL_HSI_DIV2
             CLR_BIT(RCC_CFGR  , RCC_CFGR_PLLSRC);   	// Select Internal source
-            SET_BIT(RCC_CR , RCC_CR_HSION);             // Enable Internal clock
-            while ( !(RCC_CR & 1<<RCC_CR_HSIRDY) );     // Wait till ready
         #endif
+
         SET_BIT(RCC_CR , RCC_CR_PLLON);        			        // Enable PLL
         while ( !(RCC_CR & 1<<RCC_CR_PLLRDY) );     			// Wait till ready
 

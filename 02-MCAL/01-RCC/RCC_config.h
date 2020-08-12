@@ -18,8 +18,10 @@
 */
 #define MICRO_OUTPUT_CLOCK      MCO_NOCLK            
 
-// Clock Source: HSI - HSE_RC - HSE_XTAL - PLL
-#define CLOCK_SRC               PLL
+// Clock Source: HSI - HSE_RC - HSE_XTAL 
+#define CLOCK_SRC               HSI
+// Clock PLL: 1:Enable   -   0:Disable
+#define CLOCK_PLL              1
 
 #if CLOCK_SRC == HSI
     /*
@@ -30,31 +32,25 @@
         Max value = 31 
     */
     #define TRIM_VALUE  16
+#elif CLOCK_SRC == HSE_RC ||  CLOCK_SRC == HSE_XTAL 
+    /**
+     * Choose to 1 enable Security , 0 to diable 
+    */
+    #define CSSON   1
+#endif
 
-#elif CLOCK_SRC == PLL
+#if CLOCK_PLL == 1
     /* Options: 
         RCC_PLL_HSI_DIV2
         RCC_PLL_HSE_DIV2
         RCC_PLL_HSE
     */
     #define PLL_SRC     RCC_PLL_HSE
-	#if PLL_SRC != RCC_PLL_HSI_DIV2
-		/**
-     	 * Choose to 1 enable Security , 0 to diable
-     	 */
-    	#define CSSON   0
-	#endif
     /* Choose multiplier
         integer value:  2 ~ 16 
         Warning: result clock MUST NOT exceed 72MHZ
     */
     #define PLL_MUL     2
-
-#elif CLOCK_SRC == HSE_RC ||  CLOCK_SRC == HSE_XTAL 
-    /**
-     * Choose to 1 enable Security , 0 to diable 
-    */
-    #define CSSON   1
 #endif
 
 #endif  // End Of File
