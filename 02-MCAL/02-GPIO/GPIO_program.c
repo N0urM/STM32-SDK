@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
 /* Date  : 13/8/2020                                   */
-/* Vesion: 1.1                                         */
+/* Vesion: 1.0                                         */
 /* File  : GPIO_program.c                              */
 /*******************************************************/ 
 
@@ -60,11 +60,12 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , u8 mode){
 	switch (cpy_port)
     {
     case PORTA:
-        GPIOA_CRL = 0;
-        GPIOA_CRH = 0;
+        GPIOA_CRL = 0;                                          // Clear configuration bits
+        GPIOA_CRH = 0;                                          // Clear configuration bits
         pins_num =  0;
-        for(pins_num = 0 ; pins_num < 8; pins_num ++){
-             GPIOA_CRL |= (mode << ( pins_num * 4 ) );
+        /*  Initialize all port pins to the selected mode*/
+        for(pins_num = 0 ; pins_num < 8; pins_num ++){          
+             GPIOA_CRL |= (mode << ( pins_num * 4 ) );      
         }
         for(pins_num = 0 ; pins_num < 8; pins_num ++){
              GPIOA_CRH |= (mode << ( pins_num * 4 ) );
@@ -75,6 +76,7 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , u8 mode){
         GPIOB_CRL = 0;
         GPIOB_CRH = 0;
         pins_num = 0 ;
+        /*  Initialize all port pins to the selected mode*/
         for(pins_num = 0 ; pins_num < 8; pins_num ++){
              GPIOB_CRL |= (mode << ( pins_num * 4 ) );
         }
@@ -87,6 +89,7 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , u8 mode){
         GPIOC_CRL = 0;
         GPIOC_CRH = 0;
         pins_num = 0 ;
+        /*  Initialize all port pins to the selected mode*/
         for(pins_num = 0 ; pins_num < 8; pins_num ++){
              GPIOC_CRL |= (mode << ( pins_num * 4 ) );
         }
@@ -129,6 +132,7 @@ void GPIO_voidSetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin , u8 cpy_value){
 }
 
 void GPIO_voidSetPortValue(t_PORT cpy_port , u16 cpy_value){
+    /* Set the value of the output data register */
     switch (cpy_port)
     {
     case PORTA:
@@ -147,6 +151,7 @@ void GPIO_voidSetPortValue(t_PORT cpy_port , u16 cpy_value){
 
 
 u8 GPIO_u8GetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin){
+    /* Get the pin value from the input data register */
     u8 retValue = 0;
     switch (cpy_port)
     {
@@ -165,7 +170,8 @@ u8 GPIO_u8GetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin){
     return retValue;
 }
 
-u16 GPIO_u8GetPortValue(t_PORT cpy_port){
+u16 GPIO_u16GetPortValue(t_PORT cpy_port){
+    /* Get the value of the input data register */
      u16 retValue = 0;
     switch (cpy_port)
     {

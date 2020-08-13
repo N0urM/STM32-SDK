@@ -121,7 +121,7 @@ u8 GPIO_u8GetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin);
             port   : PORTA,PORTB,PORTC
     Return  :  port value 
 */
-u16 GPIO_u8GetPortValue(t_PORT cpy_port);
+u16 GPIO_u16GetPortValue(t_PORT cpy_port);
 
 /***********************************************************/
 
