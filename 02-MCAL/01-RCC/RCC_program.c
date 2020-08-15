@@ -95,13 +95,16 @@ void RCC_voidEnableClock(BUS_ID copy_bus_id , u8 copy_periphiral_id){
         switch (copy_bus_id)
         {
         case t_AHB:
-            SET_BIT(RCC_AHBENR , copy_periphiral_id);
+            if (GET_BIT (RCC_AHBENR , copy_periphiral_id) == 0)
+            	SET_BIT(RCC_AHBENR , copy_periphiral_id);
             break;  
         case t_APB1:
-            SET_BIT(RCC_APB1ENR , copy_periphiral_id);
+        	if(GET_BIT(RCC_APB1ENR , copy_periphiral_id) == 0)
+        		SET_BIT(RCC_APB1ENR , copy_periphiral_id);
             break;
         case t_APB2:
-            SET_BIT(RCC_APB2ENR , copy_periphiral_id);
+        	if(GET_BIT(RCC_APB2ENR , copy_periphiral_id) == 0)
+        		SET_BIT(RCC_APB2ENR , copy_periphiral_id);
             break;
         default:
             break;

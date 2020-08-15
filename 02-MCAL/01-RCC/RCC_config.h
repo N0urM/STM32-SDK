@@ -21,7 +21,7 @@
 // Clock Source: HSI - HSE_RC - HSE_XTAL 
 #define CLOCK_SRC               HSE_XTAL
 // Clock PLL: 1:Enable   -   0:Disable
-#define CLOCK_PLL              1
+#define CLOCK_PLL              	0
 
 #if CLOCK_SRC == HSI
     /*
@@ -36,7 +36,7 @@
     /**
      * Choose to 1 enable Security , 0 to diable 
     */
-    #define CSSON   1
+    #define CSSON   0
 #endif
 
 #if CLOCK_PLL == 1
@@ -45,7 +45,7 @@
         RCC_PLL_HSE_DIV2
         RCC_PLL_HSE
     */
-    #define PLL_SRC     RCC_PLL_HSE
+    #define PLL_SRC     RCC_PLL_HSE_DIV2
     /* Choose multiplier
         integer value:  2 ~ 16 
         Warning: result clock MUST NOT exceed 72MHZ
