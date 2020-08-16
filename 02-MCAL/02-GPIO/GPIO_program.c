@@ -106,24 +106,24 @@ void GPIO_voidSetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin , u8 cpy_value){
     switch (cpy_port)
     {
     case PORTA:
-        if(cpy_value == 1){
-            SET_BIT(GPIOA_ODR , cpy_pin);
-        }else {
+        if(cpy_value == 0){
             CLR_BIT(GPIOA_ODR , cpy_pin);
+        }else {
+            SET_BIT(GPIOA_ODR , cpy_pin);
         }
         break;
     case PORTB:
-        if(cpy_value == 1){
-            SET_BIT(GPIOB_ODR , cpy_pin);
-        }else {
+        if(cpy_value == 0){
             CLR_BIT(GPIOB_ODR , cpy_pin);
+        }else {
+            SET_BIT(GPIOB_ODR , cpy_pin);
         }
         break;
     case PORTC:
-        if(cpy_value == 1){
-            SET_BIT(GPIOC_ODR , cpy_pin);
-        }else {
+        if(cpy_value == 0){
             CLR_BIT(GPIOC_ODR , cpy_pin);
+        }else {
+            SET_BIT(GPIOC_ODR , cpy_pin);
         }
         break;    
     default:
