@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 13/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 20/8/2020                                   */
+/* Vesion: 2.0                                         */
 /* File  : GPIO_interface.h                            */
 /*******************************************************/ 
 #ifndef     GPIO_INTERFACE_H
@@ -36,26 +36,26 @@ typedef enum{
 /******************* public constants *************************/
 // GPIO MODES definitions
 // Used with GPIO_voidInitPortPinDirection() function
-
-#define INPUT_ANALOG                0b0000
-#define INPUT_FLOATING              0b0100
-#define INPUT_PULL_DOWN_UP          0b1000
+typedef enum {
+  INPUT_ANALOG    		   =0b0000,
+  INPUT_FLOATING  		   =0b0100,
+  INPUT_PULL_UP_DOWN  	   =0b1000,
     
-#define OUTPUT_PUSH_PULL_10MHZ      0b0001
-#define OUTPUT_OPEN_DRAIN_10MHZ     0b0101
-#define AF_PUSH_PULL_10MHZ          0b1001
-#define AF_OPEN_DRAIN_10MHZ         0b1101
+  OUTPUT_PUSH_PULL_10MHZ   =0b0001,
+  OUTPUT_OPEN_DRAIN_10MHZ  =0b0101,
+  AF_PUSH_PULL_10MHZ       =0b1001,
+  AF_OPEN_DRAIN_10MHZ      =0b1101,
 
-#define OUTPUT_PUSH_PULL_50MHZ      0b0011
-#define OUTPUT_OPEN_DRAIN_50MHZ     0b0111
-#define AF_PUSH_PULL_50MHZ          0b1011
-#define AF_OPEN_DRAIN_50MHZ         0b1111
+  OUTPUT_PUSH_PULL_50MHZ   =0b0011,
+  OUTPUT_OPEN_DRAIN_50MHZ  =0b0111,
+  AF_PUSH_PULL_50MHZ       =0b1011,
+  AF_OPEN_DRAIN_50MHZ      =0b1111,
 
-#define OUTPUT_PUSH_PULL_2MHZ       0b0010
-#define OUTPUT_OPEN_DRAIN_2MHZ      0b0110
-#define AF_PUSH_PULL_2MHZ           0b1010
-#define AF_OPEN_DRAIN_2MHZ          0b1110
-
+  OUTPUT_PUSH_PULL_2MHZ    =0b0010,
+  OUTPUT_OPEN_DRAIN_2MHZ   =0b0110,
+  AF_PUSH_PULL_2MHZ        =0b1010,
+  AF_OPEN_DRAIN_2MHZ       =0b1110,
+}t_MODE;
 /******************* public functions *************************/
 
 /*
@@ -64,10 +64,10 @@ typedef enum{
     Parameters   :  
         port: PORTA,PORTB,PORTC
         pin : 0-15
-        mode: input/output definitions 
+        mode: input/output selection 
     No return
 */
-void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,u8 mode);
+void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,t_MODE mode);
 
 
 /*
@@ -75,11 +75,11 @@ void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,u8 mode);
     Description  : initialize a GPIO port direction and mode
     Parameters   :  
         port: PORTA,PORTB,PORTC
-        mode: input/output definitions 
+        mode: input/output selection
     No return
 
 */
-void GPIO_voidInitPortDirection (t_PORT cpy_port , u8 mode);
+void GPIO_voidInitPortDirection (t_PORT cpy_port , t_MODE mode);
 
 /*
     Function Name: GPIO_voidSetPortPinValue
@@ -118,10 +118,22 @@ u8 GPIO_u8GetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin);
     Function Name: GPIO_u8GetPortValue
     Description  : Get a GPIO port value  0 ~ 0xFF
     Parameters   :  
-            port   : PORTA,PORTB,PORTC
+                port   : PORTA,PORTB,PORTC
     Return  :  port value 
 */
 u16 GPIO_u16GetPortValue(t_PORT cpy_port);
+
+/*
+    Function Name: GPIO_voidLockPortPin
+    Description  : Using this function after enabling LOCL on PORTx 
+                in the Config file will result in a freeze in selceted pin
+    Parameters   :  
+                port   : PORTA,PORTB,PORTC
+                pin    : 0~15    
+    Return  : No Return  
+
+*/
+void EnableLockOnPortPin(t_PORT port ,t_PIN pin);
 
 /***********************************************************/
 
