@@ -7,6 +7,5 @@
 #ifndef     GPIO_CONFIG_H
 #define     GPIO_CONFIG_H
 
-#define PULL_TYPE		0 	// 1: PULL UP & 0:PULL DOWN
 
 #endif  // End Of File

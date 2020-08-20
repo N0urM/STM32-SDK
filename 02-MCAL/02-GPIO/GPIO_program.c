@@ -29,14 +29,6 @@ void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,t_MODE mode
             GPIOA_CRH &= ~ ( (0b1111)<< ( (cpy_pin-8) * 4 ) );  // Clear configuration bits
             GPIOA_CRH |= (mode << ( (cpy_pin-8) * 4 ) );        // Set configuration    
         }
-
-        if (mode == INPUT_PULL_UP_DOWN){
-			#if PULL_TYPE == 1
-                SET_BIT(GPIOA_BSRR , cpy_pin);                  // Activate internal pull up
-        	#else
-         	    SET_BIT(GPIOA_BRR , cpy_pin);                   // Activate internal pull down
-         	#endif
-        }
         break;
     case PORTB:
     
@@ -48,13 +40,6 @@ void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,t_MODE mode
             GPIOB_CRH &= ~ ( (0b1111)<< ( (cpy_pin-8) * 4 ) );  // Clear configuration bits
             GPIOB_CRH |= (mode << ( (cpy_pin-8) * 4 ) );        // Set configuration    
         }
-        if (mode == INPUT_PULL_UP_DOWN){
-        	#if PULL_TYPE == 1
-                SET_BIT(GPIOB_BSRR , cpy_pin);                  // Activate internal pull up
-        	#else
-        	    SET_BIT(GPIOB_BRR , cpy_pin);                   // Activate internal pull down
-        	#endif
-         }
         break;
     case PORTC:
         
@@ -66,13 +51,6 @@ void GPIO_voidInitPortPinDirection(t_PORT cpy_port , t_PIN cpy_pin  ,t_MODE mode
             GPIOC_CRH |= (mode << ( (cpy_pin-8) * 4 ) );        // Set configuration    
         }
         
-        if (mode == INPUT_PULL_UP_DOWN){
-        	#if PULL_TYPE == 1
-                SET_BIT(GPIOC_BSRR , cpy_pin);                   // Activate internal pull up
-        	#else
-                SET_BIT(GPIOC_BRR , cpy_pin);                    // Activate internal pull down
-            #endif
-         }
         break;
     default:
         /*Shouldn't be here 
@@ -99,13 +77,6 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , t_MODE mode){
              GPIOA_CRH |= (mode << ( pins_num * 4 ) );
         }
         
-        if (mode == INPUT_PULL_UP_DOWN){
-    		#if PULL_TYPE == 1
-         		GPIOA_BSRR = 0xFF;                       // Activate internal pull up
-   			#else
-        		GPIOA_BRR  = 0xFF;                       // Activate internal pull down
-        	#endif
-         }
         break;
 
     case PORTB:
@@ -120,16 +91,7 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , t_MODE mode){
         for(pins_num = 0 ; pins_num < 8; pins_num ++){
              GPIOB_CRH |= (mode << ( pins_num * 4 ) );
         }
-
-        if (mode == INPUT_PULL_UP_DOWN){
-        	#if PULL_TYPE == 1
-        		GPIOB_BSRR = 0xFF;                          // Activate internal pull up
-        	#else
-          		GPIOB_BRR  = 0xFF;                          // Activate internal pull down
-          	#endif
-              
-        }
-        break;
+    break;
     
     case PORTC:
         
@@ -142,14 +104,6 @@ void GPIO_voidInitPortDirection (t_PORT cpy_port , t_MODE mode){
         }
         for(pins_num = 0 ; pins_num < 8; pins_num ++){
              GPIOC_CRH |= (mode << ( pins_num * 4 ) );
-        }
-
-        if (mode == INPUT_PULL_UP_DOWN){
-        	#if PULL_TYPE == 1
-            	GPIOC_BSRR = 0xFF;                          // Activate internal pull up
-        	#else
-                GPIOC_BRR  = 0xFF;                          // Activate internal pull down
-            #endif
         }
         break;
     default:
@@ -243,6 +197,42 @@ u16 GPIO_u16GetPortValue(t_PORT cpy_port){
         break;
     }
     return retValue;
+}
+
+void GPIO_voidSetPullType (t_PORT cpy_port , t_PIN cpy_pin , u8 pull_type){
+    if (pull_type == 1){
+        switch (cpy_port)
+        {
+        case PORTA:
+            SET_BIT(GPIOA_BSRR , cpy_pin);                  // Activate internal pull up
+            break;
+        case PORTB:
+            SET_BIT(GPIOB_BSRR , cpy_pin);                  // Activate internal pull up
+            break;
+        case PORTC:
+            SET_BIT(GPIOC_BSRR , cpy_pin);                  // Activate internal pull up
+            break;
+        default:
+            break;
+        }
+        
+    }
+    else {       	
+        switch (cpy_port)
+        {
+        case PORTA:
+            SET_BIT(GPIOA_BRR , cpy_pin);                  // Activate internal pull down
+            break;
+        case PORTB:
+            SET_BIT(GPIOB_BRR , cpy_pin);                  // Activate internal pull down
+            break;
+        case PORTC:
+            SET_BIT(GPIOC_BRR , cpy_pin);                  // Activate internal pull down
+            break;
+        default:
+            break;
+        }   
+    }
 }
 
 void EnableLockOnPortPin(t_PORT port ,t_PIN pin){

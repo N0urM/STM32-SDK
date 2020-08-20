@@ -103,6 +103,18 @@ void GPIO_voidSetPortPinValue(t_PORT cpy_port , t_PIN cpy_pin , u8 cpy_value);
 */
 void GPIO_voidSetPortValue(t_PORT cpy_port , u16 cpy_value);
 
+/*
+    Function Name: GPIO_voidSetPullType
+    Description  : Used with input pull up down pins
+    Parameters   :  
+        port   : PORTA, PORTB, PORTC
+        pin    : 0 ~ 15
+        pull_type : 0: pull down 
+                    1: pull up
+    No return
+
+*/
+void GPIO_voidSetPullType (t_PORT cpy_port , t_PIN cpy_pin , u8 pull_type);
 
 /*
     Function Name: GPIO_u8GetPortPinValue
