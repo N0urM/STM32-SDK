@@ -143,8 +143,8 @@ u8 NVIC_u8GetActiveFlag(t_Interrupt_ID cpy_interrupt_id);
  *       specified in the conofig file.
  *  
  * EX:  INTERRUPT_GROUPS = GROUP2_SUB8
- *      cpy_Group_Piriority value: 0 ~ 2
- *      cpy_Sub_piriority value: 0 ~ 8
+ *      cpy_Group_Piriority value: 0 ~ 1
+ *      cpy_Sub_piriority value: 0 ~ 7
  * 
  * Return: void
  **/
