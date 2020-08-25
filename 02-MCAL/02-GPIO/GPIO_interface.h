@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 20/8/2020                                   */
-/* Vesion: 2.0                                         */
+/* Date  : 24/8/2020                                   */
+/* Vesion: 3.0                                         */
 /* File  : GPIO_interface.h                            */
 /*******************************************************/ 
 #ifndef     GPIO_INTERFACE_H
@@ -56,6 +56,11 @@ typedef enum {
   AF_PUSH_PULL_2MHZ        =0b1010,
   AF_OPEN_DRAIN_2MHZ       =0b1110,
 }t_MODE;
+
+
+typedef enum{
+    EXTI,
+}t_AF;
 /******************* public functions *************************/
 
 /*
@@ -145,7 +150,9 @@ u16 GPIO_u16GetPortValue(t_PORT cpy_port);
     Return  : No Return  
 
 */
-void EnableLockOnPortPin(t_PORT port ,t_PIN pin);
+void GPIO_voidEnableLockOnPortPin(t_PORT cpy_port ,t_PIN cpy_pin);
+
+void GPIO_EnableAFOnPortPin(t_PORT cpy_port ,t_PIN cpy_pin , t_AF acpy_Alternative_function);
 
 /***********************************************************/
 

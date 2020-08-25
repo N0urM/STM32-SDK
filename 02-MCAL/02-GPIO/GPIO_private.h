@@ -1,7 +1,7 @@
 /******************************************************/ 
 /* Author: Nourhan Mansour                            */
-/* Date  : 20/8/2020                                  */
-/* Vesion: 2.0                                        */
+/* Date  : 24/8/2020                                  */
+/* Vesion: 3.0                                        */
 /* File  : GPIO_private.h                             */
 /******************************************************/ 
 #ifndef     GPIO_PRIVATE_H
@@ -37,4 +37,22 @@
 #define GPIOC_BRR           *((u32 *) 0x40011014)
 #define GPIOC_LCKR          *((u32 *) 0x40011018)
 
+/****************** AFIO Registers *******************/
+typedef struct 
+{
+   volatile u32 EVCR;
+   volatile u32 MAPR;
+   volatile u32 EXTICR[4];
+
+}t_AFIO;
+
+typedef enum {
+    PORTA_MAP = 0b0000,
+    PORTB_MAP ,
+    PORTC_MAP ,
+}t_PORT_MAPPING;
+
+
+#define AFIO_BASE_ADDRESS       0x40010000
+#define AFIO                    ((t_AFIO *) AFIO_BASE_ADDRESS)
 #endif  // End Of File

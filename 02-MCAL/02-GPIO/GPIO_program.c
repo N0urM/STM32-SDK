@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 20/8/2020                                   */
-/* Vesion: 2.0                                         */
+/* Date  : 24/8/2020                                   */
+/* Vesion: 3.0                                         */
 /* File  : GPIO_program.c                              */
 /*******************************************************/ 
 
@@ -235,9 +235,10 @@ void GPIO_voidSetPullType (t_PORT cpy_port , t_PIN cpy_pin , u8 pull_type){
     }
 }
 
-void EnableLockOnPortPin(t_PORT port ,t_PIN pin){
+void GPIO_voidEnableLockOnPortPin(t_PORT port ,t_PIN pin){
 	u32 tmp = 0x00010000;
 	tmp |=  (1 << pin);
+
 	switch (port)
     {
     case PORTA:
@@ -283,3 +284,38 @@ void EnableLockOnPortPin(t_PORT port ,t_PIN pin){
     }
 }
 
+void GPIO_EnableAFOnPortPin(t_PORT cpy_port ,t_PIN cpy_pin , t_AF cpy_Alternative_function)
+{
+    u8 local_reg_idx  = cpy_pin / 4;            // Select register in the array
+    u8 local_line_bit = (cpy_pin % 4) * 4;      // Select bits numbers
+    u8 local_port_map = PORTA_MAP;
+    switch (cpy_Alternative_function)
+    {
+    case EXTI:
+
+        /* Select Mapping */
+        
+        switch (cpy_port)
+        {
+        case PORTA:
+            local_port_map = PORTA_MAP;
+            break;
+        case PORTB:
+            local_port_map = PORTB_MAP;
+            break;
+        case PORTC:
+            local_port_map = PORTC_MAP;
+            break;
+        default:
+            break;
+        }
+        /** Set new AF value **/
+        AFIO->EXTICR[local_reg_idx] &= ~ ((0b1111) << local_line_bit);
+        AFIO->EXTICR[local_reg_idx] |= local_port_map << local_line_bit;    
+        break;
+        
+    default:
+        break;
+    }
+    
+}
