@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 25/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 26/8/2020                                   */
+/* Vesion: 1.1                                         */
 /* File  : STK_INTERFACE.h                             */
 /*******************************************************/ 
 #ifndef STK_INTERFACE_H
@@ -38,6 +38,16 @@ typedef enum {
     No return
 */
 void STK_voidInit(t_STK_CLK cpy_CLK , t_STK_INTERRUPT cpy_interrupt);
+
+/*
+    Function Name: STK_voidInterruptHandler
+    Description  : Assigns the function to be excuted when Interrupt occurs 
+    Parameters   : 
+            void (*func): pointer to a void function to be excuted when the intterrupt occurs 
+    Note: Must be specified before Enabling the timer
+    No return
+*/
+void STK_voidInterruptHandler(void (*func));
 
 /*
     Function Name: STK_voidEnableTimer
@@ -85,6 +95,7 @@ void STK_voidCount_ms(u16 cpy_ms , u16 cpy_STK_CLK_MHZ );
     No return
 */
 void STK_voidCount_us(u32 cpy_us , u16 cpy_STK_CLK_MHZ );
+
 
 
 #endif // End Of File

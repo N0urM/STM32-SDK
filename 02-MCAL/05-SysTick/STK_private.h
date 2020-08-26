@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 25/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 26/8/2020                                   */
+/* Vesion: 1.1                                         */
 /* File  : STK_PRIVATE.h                               */
 /*******************************************************/ 
 #ifndef STK_PRIVATE_H
@@ -28,5 +28,9 @@ typedef struct
 #define STK_CTRL_CLKSPURCE      2
 #define STK_CTRL_COUNTFLAG      16
 
+/***************** Private variables ********************/
 
+// pointter to Function callback 
+void dummyFunction();
+void (*functionCallBack)(void) = dummyFunction;
 #endif // End Of File

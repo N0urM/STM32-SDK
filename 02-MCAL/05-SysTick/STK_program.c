@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 23/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 26/8/2020                                   */
+/* Vesion: 1.1                                         */
 /* File  : STK_program.c                               */
 /*******************************************************/ 
 
@@ -15,6 +15,8 @@
 #include "STK_interface.h"
 #include "STK_private.h"
 #include "STK_config.h"
+
+
 
 void STK_voidInit(t_STK_CLK cpy_CLK , t_STK_INTERRUPT cpy_interrupt)
 {
@@ -69,4 +71,19 @@ u32  STK_u32ReadTimerValue()
 {
     u32 ret = STK -> VAL;
     return ret;
+}
+
+
+void STK_voidInterruptHandler( void (*func) )
+{
+    functionCallBack = func;
+}
+
+void SysTick_Handler(void)
+{
+    functionCallBack();
+}
+
+void dummyFunction (){
+    // Do nothing
 }
