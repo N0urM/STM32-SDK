@@ -1,9 +1,9 @@
-/*******************************************************/ 
-/* Author: Nourhan Mansour                             */
-/* Date  : 29/8/2020                                   */
-/* Vesion: 2.0                                         */
-/* File  : STK_INTERFACE.h                             */
-/*******************************************************/ 
+/********************************************************/
+/* Author : Nourhan Mansour                             */
+/* Date   : 29/8/2020                                   */
+/* Vesion : 2.0                                         */
+/* File   : STK_INTERFACE.h                             */
+/********************************************************/
 #ifndef STK_INTERFACE_H
 #define STK_INTERFACE_H
 
@@ -18,22 +18,30 @@
 
 /*
     Function Name: STK_voidInit
-    Description  : initilaze timer clock from config file, disable interrupt and timer
+    Description  : initialize timer clock from config file, disable interrupt and timer
     Parameters   : none
     Return value : none
 */
 void STK_voidInit(void);
 
 
+/*
+    Function Name: STK_voidSetBusyWait
+    Description  : Set the number of ticks to wait
+    Parameters   :
+                copy_ticks  : number of ticks till next interrupt
+    Notes        : This function DOES halt the processor till underflow
+    Return value : none
+*/
 void STK_voidSetBusyWait(u32 copy_Ticks);
 
 /*
     Function Name: STK_voidSetIntervalSingle
-    Description  : Assigns the function to be excuted when Interrupt occurs once after number of ticks 
-    Parameters   : 
-            copy_ticks  : nu,ber of ticks till next interrupt
-            void (*func): pointer to a void function to be excuted when the intterrupt occurs 
-    Notes        : This function doesn't halt the processor 
+    Description  : Assigns the function to be excuted when Interrupt occurs once after number of ticks
+    Parameters   :
+            copy_ticks  : number of ticks till next interrupt
+            void (*func): pointer to a void function to be executed when the interrupt occurs
+    Notes        : This function doesn't halt the processor
     Return value : none
 */
 void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) );
@@ -41,12 +49,12 @@ void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) );
 
 /*
     Function Name: STK_voidSetIntervalPeriodic
-    Description  : Assigns the function to be excuted when Interrupt occurs periodically after number of ticks 
-    Parameters   : 
-            copy_ticks  : nu,ber of ticks till next interrupt
-            void (*func): pointer to a void function to be excuted when the intterrupt occurs 
-    Notes        : • This function doesn't halt the processor 
-                   • It will excute as long as the timer is not disabled 
+    Description  : Assigns the function to be executed when Interrupt occurs periodically after number of ticks
+    Parameters   :
+            copy_ticks  : number of ticks till next interrupt
+            void (*func): pointer to a void function to be executed when the interrupt occurs
+    Notes        : • This function doesn't halt the processor
+                   • It will execute as long as the timer is not disabled
     Return value : none
 */
 void STK_voidSetIntervalPeriodic(u32 copy_ticks , void (*func)(void) );
