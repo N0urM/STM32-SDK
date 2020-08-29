@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 23/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 29/8/2020                                   */
+/* Vesion: 1.1                                         */
 /* File  : EXTI_private.h                              */
 /*******************************************************/ 
 #ifndef EXTI_PRIVATE_H
@@ -22,5 +22,9 @@ typedef struct
 
 #define EXTI_BASE_ADDRESS    0x40010400 
 #define EXTI                 ((t_EXTI *) EXTI_BASE_ADDRESS)
+
+
+// Interupt Functions Call back 
+void (*functionCallBack[7])(void) ;
 
 #endif // End Of File

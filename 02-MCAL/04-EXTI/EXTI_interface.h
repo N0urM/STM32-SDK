@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 23/8/2020                                   */
-/* Vesion: 1.0                                         */
+/* Date  : 29/8/2020                                   */
+/* Vesion: 1.1                                         */
 /* File  : EXTI_interface.h                            */
 /*******************************************************/ 
 #ifndef EXTI_INTERFACE_H
@@ -17,11 +17,12 @@ typedef enum{
     Function Name: EXTI_voidEnableExternalInterrupt
     Description  : Enable External interrupt on line: cpy_line with Edge: cpy_Edge_Selection
     Parameters   :  
-        cpy_line: 0 - 18
-        cpy_Edge_Selection: Falling, rising, on_change  
+        cpy_line    : 0 - 18
+        cpy_Edge    : Falling, rising, on_change  
+        func        : Function to be excuted when the interrupt on line cpy_line is fired.
     No return
 */
-void EXTI_voidEnableExternalInterrupt (u8 cpy_line  , t_EDGE cpy_Edge_Selection);
+void EXTI_voidEnableExternalInterrupt (u8 cpy_line  , t_EDGE cpy_Edge_Selection , void (*func)(void) );
 
 /*
     Function Name: EXTI_voidDisableExternalInterrupt
