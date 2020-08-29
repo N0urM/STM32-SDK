@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 26/8/2020                                   */
-/* Vesion: 1.1                                         */
+/* Date  : 29/8/2020                                   */
+/* Vesion: 2.0                                         */
 /* File  : STK_PRIVATE.h                               */
 /*******************************************************/ 
 #ifndef STK_PRIVATE_H
@@ -30,7 +30,11 @@ typedef struct
 
 /***************** Private variables ********************/
 
-// pointter to Function callback 
-void dummyFunction();
-void (*functionCallBack)(void) = dummyFunction;
+// pointer to Function callback 
+void (*functionCallBack)(void);
+
+// Periodic Flag 
+u8 PeriodicFlag = 0;
+
+/********************************************************/
 #endif // End Of File

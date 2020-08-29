@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 26/8/2020                                   */
-/* Vesion: 1.1                                         */
+/* Date  : 29/8/2020                                   */
+/* Vesion: 2.0                                         */
 /* File  : STK_program.c                               */
 /*******************************************************/ 
 
@@ -18,72 +18,75 @@
 
 
 
-void STK_voidInit(t_STK_CLK cpy_CLK , t_STK_INTERRUPT cpy_interrupt)
+void STK_voidInit(void)
 {
-    switch (cpy_CLK)
-    {
-    case SYS_CLK:
-        SET_BIT(STK -> CTRL , STK_CTRL_CLKSPURCE);      // No prescalar - Use system Clock (AHB clock)
-        break;
-    case SYS_CLK_DIV8:
-        CLR_BIT(STK -> CTRL , STK_CTRL_CLKSPURCE);      // With prescalar - Use system Clock/8 (AHB clock /8)
-        break;
-    default:
-        break;
-    }
-
-    switch (cpy_interrupt)
-    {
-    case STK_INTERRUPT_ENABLE:
-        SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);        // Enable interrupt
-        break;
-    case STK_INTERRUPT_DISABLE:
-        CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);        // Disable interrupt
-        break;
-    default:
-        break;
-    }
-
-}
-void STK_voidDisableTimer(){
     CLR_BIT(STK -> CTRL , STK_CTRL_ENABLE);             // Stop Timer
+    CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Disable interrupt
+
+    #if STK_CLK == SYS_CLK 
+        SET_BIT(STK -> CTRL , STK_CTRL_CLKSPURCE);      // No prescalar - Use system Clock (AHB clock)
+    
+    #elif STK_CLK == SYS_CLK_DIV8
+        CLR_BIT(STK -> CTRL , STK_CTRL_CLKSPURCE);      // With prescalar - Use system Clock/8 (AHB clock /8)
+    
+    #endif
+
 }
 
-void STK_voidEnableTimer(){
-    SET_BIT(STK -> CTRL , STK_CTRL_ENABLE);
-
-}
-
-void STK_voidCount_ms(u16 cpy_ms , u16 cpy_STK_CLK_MHZ )
+void STK_voidStopTimer()
 {
-    u32 loadVal = cpy_ms * ( cpy_STK_CLK_MHZ * 1000 );
-    STK-> LOAD = loadVal;
-}
+    CLR_BIT(STK -> CTRL , STK_CTRL_ENABLE);                 // Stop Timer
+    CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);                // Disable interrupt
 
-void STK_voidCount_us(u32 cpy_us , u16 cpy_STK_CLK_MHZ )
-{
-    u32 loadVal = cpy_us *  cpy_STK_CLK_MHZ;
-    STK-> LOAD = loadVal;  
 }
 
 
-u32  STK_u32ReadTimerValue()
+void STK_voidSetBusyWait(u32 cpy_Ticks )
 {
-    u32 ret = STK -> VAL;
+    STK-> LOAD = cpy_Ticks;                                 // Load Value
+    CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);                // Disable interrupt
+    SET_BIT(STK -> CTRL , STK_CTRL_ENABLE);                 // Enable Timer
+    while( ! GET_BIT(STK -> CTRL , STK_CTRL_COUNTFLAG) );   // Wait for Flag 
+}
+
+
+
+u32 STK_u32GetRemainingTime()
+{
+    u32 ret = STK -> VAL;                                   // Get current value
+    return ret;
+}
+
+u32 STK_u32GetElaspedTime(void){
+    u32 loadVal = STK -> LOAD;                              // Get value in the load Register
+    u32 currentVal = STK -> VAL;                            // Get curretn value
+    u32 ret = loadVal - currentVal;
     return ret;
 }
 
 
-void STK_voidInterruptHandler( void (*func) )
+void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) )
 {
-    functionCallBack = func;
+    functionCallBack = func;                            // Assign Call_Back
+    STK -> LOAD = copy_ticks;                           // Load Value
+    SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Enable interrupt
+    PeriodicFlag = 0;                                   // Not Periodic
+     
+}
+
+void STK_voidSetIntervalPeriodic(u32 copy_ticks , void (*func)(void) )
+{
+    functionCallBack = func;                            // Assign Call_Back
+    STK -> LOAD = copy_ticks;                           // Load Value
+    SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Enable interrupt
+    PeriodicFlag = 1;                                   // Periodic function
 }
 
 void SysTick_Handler(void)
 {
     functionCallBack();
-}
 
-void dummyFunction (){
-    // Do nothing
+    if (PeriodicFlag == 0 )
+        CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);        // Disable interrupt
+
 }

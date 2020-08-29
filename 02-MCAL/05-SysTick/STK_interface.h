@@ -1,7 +1,7 @@
 /*******************************************************/ 
 /* Author: Nourhan Mansour                             */
-/* Date  : 26/8/2020                                   */
-/* Vesion: 1.1                                         */
+/* Date  : 29/8/2020                                   */
+/* Vesion: 2.0                                         */
 /* File  : STK_INTERFACE.h                             */
 /*******************************************************/ 
 #ifndef STK_INTERFACE_H
@@ -13,89 +13,68 @@
  the SysTick counter stops.
  ******************************************************/
 
-/**************** Public DataTypes *********************/
-typedef enum {
-    SYS_CLK, 
-    SYS_CLK_DIV8,
-}t_STK_CLK;
-
-typedef enum {
-    STK_INTERRUPT_ENABLE,
-    STK_INTERRUPT_DISABLE,
-
-}t_STK_INTERRUPT;
-/********************************************************/
-
 
 /**************** Functions prototypes ******************/
 
 /*
     Function Name: STK_voidInit
-    Description  : initilaze timer clock & interrupt
-    Parameters   :  
-        cpy_CLK: use AHB clock or AHB/8 clock
-        cpy_interrupt:  Enable or Disable
-    No return
+    Description  : initilaze timer clock from config file, disable interrupt and timer
+    Parameters   : none
+    Return value : none
 */
-void STK_voidInit(t_STK_CLK cpy_CLK , t_STK_INTERRUPT cpy_interrupt);
+void STK_voidInit(void);
+
+
+void STK_voidSetBusyWait(u32 copy_Ticks);
 
 /*
-    Function Name: STK_voidInterruptHandler
-    Description  : Assigns the function to be excuted when Interrupt occurs 
+    Function Name: STK_voidSetIntervalSingle
+    Description  : Assigns the function to be excuted when Interrupt occurs once after number of ticks 
     Parameters   : 
+            copy_ticks  : nu,ber of ticks till next interrupt
             void (*func): pointer to a void function to be excuted when the intterrupt occurs 
-    Note: Must be specified before Enabling the timer
-    No return
+    Notes        : This function doesn't halt the processor 
+    Return value : none
 */
-void STK_voidInterruptHandler(void (*func));
+void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) );
+
 
 /*
-    Function Name: STK_voidEnableTimer
-    Description  : Start Timer operation
-    Parameters   : None
-    No return
-*/
-void STK_voidEnableTimer();
-
-/*
-    Function Name: STK_voidDisableTimer
-    Description  : Srop Timer operation
-    Parameters   : None
-    No return
-*/
-void STK_voidDisableTimer();
-
-/*
-    Function Name: STK_u32ReadTimerValue
-    Description  : Get current value of the timer
-    Parameters   : None
-    Return       : Current value
-*/
-u32  STK_u32ReadTimerValue();
-
-/*
-    Function Name: STK_voidCount_ms
-    Description  : Set the time of timer underflow flag / interrupt
+    Function Name: STK_voidSetIntervalPeriodic
+    Description  : Assigns the function to be excuted when Interrupt occurs periodically after number of ticks 
     Parameters   : 
-            cpy_ms: time in ms to wait before flag set 
-                    Max delay is ~16 s on 1MHZ clock
-            cpy_STK_CLK_MHZ: Clock of the timer operation in MHZ
-    No return
+            copy_ticks  : nu,ber of ticks till next interrupt
+            void (*func): pointer to a void function to be excuted when the intterrupt occurs 
+    Notes        : • This function doesn't halt the processor 
+                   • It will excute as long as the timer is not disabled 
+    Return value : none
 */
-void STK_voidCount_ms(u16 cpy_ms , u16 cpy_STK_CLK_MHZ );
-
+void STK_voidSetIntervalPeriodic(u32 copy_ticks , void (*func)(void) );
 
 /*
-    Function Name: STK_voidCount_us
-    Description  : Set the time of timer underflow flag / interrupt
-    Parameters   : 
-            cpy_us: time in us to wait before flag set 
-                    Max delay is ~16 s on 1MHZ clock
-            cpy_STK_CLK_MHZ: Clock of the timer operation in MHZ
-    No return
+    Function Name: STK_voidStopTimer
+    Description  : Stop Timer operation
+    Parameters   : none
+    Return value : none
 */
-void STK_voidCount_us(u32 cpy_us , u16 cpy_STK_CLK_MHZ );
+void STK_voidStopTimer(void);
 
+/*
+    Function Name: STK_u32GetElapsedTime
+    Description  : Get number of ticks since the timer loaded
+    Parameters   : None
+    Return value : number of ticks
+*/
+u32 STK_u32GetElapsedTime(void);
 
+/*
+    Function Name: STK_u32GetRemainingTime
+    Description  : Get number of ticks remaining till underflow
+    Parameters   : None
+    Return value : number of ticks
+*/
+u32 STK_u32GetRemainingTime(void);
+
+/**********************************************************/
 
 #endif // End Of File
