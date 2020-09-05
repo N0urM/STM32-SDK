@@ -73,17 +73,21 @@ void LEDMRX_voidDisplay(u8 cpy_dis [] , u8 cpy_size)
         // Clear all columns 
         for (x = 0 ; x < NO_OF_COLS ; x++)
         {
-            GPIO_voidSetPortPinValue(COLS_PORT ,  cols_pins[x] , 1 );
+            GPIO_voidSetPortPinValue(COLS_PORT ,  cols_pins[x] , ROW_VOLT );
         }
 
         // Set new value for ROWS
         for (x = 0 ; x < NO_OF_ROWS ; x++)
         {
               local_bitValue = GET_BIT(cpy_dis[local_colNum+ local_offset] , x);
-              GPIO_voidSetPortPinValue(ROWS_PORT ,  rows_pins[x] , local_bitValue );
-        }
+              #if ROW_VOLT == 1
+                GPIO_voidSetPortPinValue(ROWS_PORT ,  rows_pins[x] , local_bitValue );
+              #elif ROW_VOLT == 0 
+               GPIO_voidSetPortPinValue(ROWS_PORT ,  rows_pins[x] , ~local_bitValue );
+              #endif
+        }     
         // set Col value
-        GPIO_voidSetPortPinValue(COLS_PORT ,  cols_pins[local_colNum] , 0 );
+        GPIO_voidSetPortPinValue(COLS_PORT ,  cols_pins[local_colNum] , COL_VOLT );
         
         // Set Delay
         STK_voidSetBusyWait(local_msWait);

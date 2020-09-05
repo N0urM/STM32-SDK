@@ -18,6 +18,22 @@
 
 #define DELAY_ms        100         // Time to delay before sliding columns 
 
+
+// VOLT VALUES: 
+
+/* Column conntrol values: 
+    ROW_VOLT    1 
+    COL_VOLT    0
+*/
+/* Row Control values: 
+    ROW_VOLT    0 
+    COL_VOLT    1
+
+*/
+#define ROW_VOLT        1 
+#define COL_VOLT        0
+
+
 // pins wiring for raws and cols 
 const int rows_pins [NO_OF_ROWS] = {2 , 3 , 4 , 5 , 6 , 7 , 8 , 9};
 const int cols_pins [NO_OF_COLS] = { 5 , 6 , 7 , 8 , 9};
