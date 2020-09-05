@@ -67,6 +67,8 @@ u32 STK_u32GetElaspedTime(void){
 
 void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) )
 {
+    CLR_BIT(STK -> CTRL , STK_CTRL_ENABLE);             // Stop Timer
+    STK -> VAL = 0;                                     // Reset value
     functionCallBack = func;                            // Assign Call_Back
     STK -> LOAD = copy_ticks;                           // Load Value
     SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Enable interrupt
