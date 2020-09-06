@@ -30,7 +30,11 @@ void SCH_voidDispatchTasks(void)
 {
     u8  index ;
     for (index = 0 ; index < SCH_MAX_TASKS ; index ++){
-        if (SCH_tasks_G[index].RunMe > 0 && SCH_tasks_G[index].pTask != 0 )
+        if ( (SCH_tasks_G[index].RunMe > 0 ) 
+            && 
+            ( SCH_tasks_G[index].pTask != 0 ) 
+            && 
+            (SCH_tasks_G[index].taskState == READY_STATE) )
         {
             (*SCH_tasks_G[index].pTask)();         // Run the task
             SCH_tasks_G[index].RunMe -= 1;         // Reset / reduce RunMe flag
@@ -122,4 +126,13 @@ void SCH_voidUpdate(){
             }
         }
     }
+}
+
+
+void SCH_voidPauseTask (const u8 TASK_IDX){
+    SCH_tasks_G[TASK_IDX].taskState = WAIT_STATE;
+}
+
+void SCH_voidResumeTask(const u8 TASK_IDX){
+    SCH_tasks_G[TASK_IDX].taskState = READY_STATE;
 }

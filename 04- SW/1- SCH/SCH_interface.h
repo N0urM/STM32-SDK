@@ -71,7 +71,7 @@ u8 SCH_u8AddTask( PTask pFunction, const u16 DELAY, const u16 PERIOD);
 
 /**************************************************************
  * Function   : SCH_Delete_Task
- * Parameters : TASK_IDX - The task index. Provided by SCH_Add_Task().
+ * Parameters : TASK_IDX - The task index. Provided by SCH_Add_Task.
  * RETURN     : NONE
  * Description: Removes a task from the scheduler. Note that 
  *              this does *not* delete the associated function 
@@ -79,6 +79,24 @@ u8 SCH_u8AddTask( PTask pFunction, const u16 DELAY, const u16 PERIOD);
  *              longer called by the scheduler.
  * ***********************************************************/
 void SCH_voidDeleteTask(const u8 TASK_IDX);
+
+/**************************************************************
+ * Function   : SCH_voidPauseTask
+ * Parameters : TASK_IDX - The task index Provided by SCH_Add_Task.
+ * RETURN     : NONE
+ * Description: Prevent a task from excuttion. It doesn't delete 
+ *              Or remove it from memory 
+ * ***********************************************************/
+void SCH_voidPauseTask (const u8 TASK_IDX);
+
+/**************************************************************
+ * Function   : SCH_voidResumeTask
+ * Parameters : TASK_IDX - The task index. Provided by SCH_Add_Task().
+ * RETURN     : NONE
+ * Description: Add the task to the ready state again and resume 
+ *              Excution according to Scheduler dispatcher
+ * ***********************************************************/
+void SCH_voidResumeTask(const u8 TASK_IDX);
 
 
 #endif // End Of File

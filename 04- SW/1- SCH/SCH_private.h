@@ -9,7 +9,11 @@
 
 
 #define SCH_TICK_1ms         1000
-
+ 
+ typedef enum {
+   READY_STATE,
+   WAIT_STATE,
+ }t_TASK_STATE;
 
 /****************** Data types definitions *************************/
 // The array of tasks
@@ -24,6 +28,8 @@ typedef struct sTask
     u16 Period;
     // Incremented (by scheduler) when task is due to execute
     u8 RunMe;
+    // Ready or waiting 
+    t_TASK_STATE taskState;
 } sTask;
 
 sTask SCH_tasks_G[SCH_MAX_TASKS];
@@ -51,9 +57,11 @@ void SCH_Go_To_Sleep(void);
 SCH_Update()
 This is the scheduler ISR. It is called at a rate
 determined by the timer settings in the 'init' function.
-This version is triggered by Timer 2 interrupts:
+This version is triggered by SysTick timer:
 timer is automatically reloaded.
 -*------------------------------------------------------------------*/
 void SCH_voidUpdate(void);
+
+
 
 #endif // End Of File
