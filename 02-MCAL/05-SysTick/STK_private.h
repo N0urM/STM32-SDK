@@ -1,9 +1,9 @@
-/*******************************************************/ 
-/* Author: Nourhan Mansour                             */
-/* Date  : 29/8/2020                                   */
-/* Vesion: 2.0                                         */
-/* File  : STK_PRIVATE.h                               */
-/*******************************************************/ 
+/********************************************************/ 
+/* Author : Nourhan Mansour                             */
+/* Date   : 6/9/2020                                    */
+/* Version: 2.2                                         */
+/* File   : STK_PRIVATE.h                               */
+/********************************************************/ 
 #ifndef STK_PRIVATE_H
 #define STK_PRIVATE_H
 
@@ -31,7 +31,7 @@ typedef struct
 /***************** Private variables ********************/
 
 // pointer to Function callback 
-void (*functionCallBack)(void);
+void (*STK_functionCallBack)(void);
 
 // Periodic Flag 
 u8 PeriodicFlag = 0;

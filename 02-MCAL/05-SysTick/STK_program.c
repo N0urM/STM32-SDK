@@ -1,9 +1,9 @@
-/*******************************************************/ 
-/* Author: Nourhan Mansour                             */
-/* Date  : 29/8/2020                                   */
-/* Vesion: 2.0                                         */
-/* File  : STK_program.c                               */
-/*******************************************************/ 
+/********************************************************/ 
+/* Author : Nourhan Mansour                             */
+/* Date   : 6/9/2020                                    */
+/* Version: 2.2                                         */
+/* File   : STK_program.c                               */
+/********************************************************/ 
 
 // 1- include Libraries 
 #include "STD_TYPES.h"
@@ -57,7 +57,7 @@ u32 STK_u32GetRemainingTime()
     return ret;
 }
 
-u32 STK_u32GetElaspedTime(void){
+u32 STK_u32GetElapsedTime(void){
     u32 loadVal = STK -> LOAD;                              // Get value in the load Register
     u32 currentVal = STK -> VAL;                            // Get curretn value
     u32 ret = loadVal - currentVal;
@@ -69,8 +69,9 @@ void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) )
 {
     CLR_BIT(STK -> CTRL , STK_CTRL_ENABLE);             // Stop Timer
     STK -> VAL = 0;                                     // Reset value
-    functionCallBack = func;                            // Assign Call_Back
+    STK_functionCallBack = func;                        // Assign Call_Back
     STK -> LOAD = copy_ticks;                           // Load Value
+    SET_BIT(STK -> CTRL , STK_CTRL_ENABLE);             // Enable Timer
     SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Enable interrupt
     PeriodicFlag = 0;                                   // Not Periodic
      
@@ -78,17 +79,19 @@ void STK_voidSetIntervalSingle (u32 copy_ticks , void (*func)(void) )
 
 void STK_voidSetIntervalPeriodic(u32 copy_ticks , void (*func)(void) )
 {
-    functionCallBack = func;                            // Assign Call_Back
+    STK_functionCallBack = func;                        // Assign Call_Back
     STK -> LOAD = copy_ticks;                           // Load Value
+    SET_BIT(STK -> CTRL , STK_CTRL_ENABLE);             // Enable Timer
     SET_BIT(STK -> CTRL , STK_CTRL_TICKINT);            // Enable interrupt
     PeriodicFlag = 1;                                   // Periodic function
 }
 
 void SysTick_Handler(void)
 {
-    functionCallBack();
+    STK_functionCallBack();
 
     if (PeriodicFlag == 0 )
-        CLR_BIT(STK -> CTRL , STK_CTRL_TICKINT);        // Disable interrupt
-
+    {
+        STK_voidStopTimer();
+    }
 }
