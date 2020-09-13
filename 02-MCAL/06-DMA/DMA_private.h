@@ -7,6 +7,8 @@
 #ifndef DMA_PRIVATE_H
 #define DMA_PRIVATE_H
 
+/***** Private Data types & Registers definitions  *******/
+
 typedef struct  
 {
     volatile u32 CCR;
@@ -25,15 +27,17 @@ typedef struct
 
 #define DMA     ( (volatile t_DMA*) 0x40020000 )
 
+/**********************************************************/
+
 /* Error LOG */
 u8 CHANNEL_STATUS[7];
-
 
 /* Call back */ 
 void (*DMA_functionCallBack[7])(void);
 
+/**************Registers Bits Configuration****************/
+// DMA_CCRx
 
-/*      Registers Bits Configuration   */
 #define DMA_CCRx_EN            0
 #define DMA_CCRx_TCIE          1
 #define DMA_CCRx_HTIE          2
@@ -50,6 +54,8 @@ void (*DMA_functionCallBack[7])(void);
 #define DMA_CCRx_PL1           13
 #define DMA_CCRx_M2M           14
 
+/***************************************/
+// DMA_IFCR
 
 #define DMA_IFCR_CGIF1          0
 #define DMA_IFCR_CTCF1          1
@@ -86,13 +92,13 @@ void (*DMA_functionCallBack[7])(void);
 #define DMA_IFCR_CHTF7          26
 #define DMA_IFCR_CTEF7          27
 
-/**************************************8*/
+/***************************************/
+// DMA_ISR
 
 #define DMA_ISR_GIF1             0
 #define DMA_ISR_TCIF1            1
 #define DMA_ISR_HTIF1            2
 #define DMA_ISR_TEIF1            3
-
 
 #define DMA_ISR_GIF2             4
 #define DMA_ISR_TCIF2            5
@@ -123,5 +129,7 @@ void (*DMA_functionCallBack[7])(void);
 #define DMA_ISR_TCIF7            25
 #define DMA_ISR_HTIF7            26
 #define DMA_ISR_TEIF7            27
+
+/*******************************************************/
 
 #endif // End Of File
