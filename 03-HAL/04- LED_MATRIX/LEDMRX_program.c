@@ -23,19 +23,19 @@ void LEDMRX_voidInit(void)
 {
     // Enable clock 
     #if ROWS_PORT == 0
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPAEN);
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPAEN);
     #elif ROWS_PORT == 1
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPBEN);
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPBEN);
     #elif ROWS_PORT == 2
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPCEN); 
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPCEN); 
     #endif
 
     #if COLS_PORT == 0
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPAEN);
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPAEN);
     #elif COLS_PORT == 1
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPBEN);
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPBEN);
     #elif COLS_PORT == 2
-        RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPCEN);
+        RCC_voidEnableClock(t_APB2, APB2ENR_IOPCEN);
     #endif
 
 
