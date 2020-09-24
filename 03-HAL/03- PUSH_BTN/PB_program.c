@@ -27,13 +27,13 @@ void PB_Init(t_PORT cpy_port ,t_PIN cpy_pin ,tPB pb, tPB_State initial_state)
     switch (cpy_port)
 	{
 		case PORTA:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPAEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPAEN);
 			break;
 		case PORTB:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPBEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPBEN);
 			break;
 		case PORTC:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPCEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPCEN);
 			break;
 		default:
 			break;

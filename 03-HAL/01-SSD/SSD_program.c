@@ -24,13 +24,13 @@ void SSD_voidInit(t_SSD cpy_SSD){
     	switch (cpy_SSD.port)
 		{
 		case PORTA:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPAEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPAEN);
 			break;
 		case PORTB:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPBEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPBEN);
 			break;
 		case PORTC:
-			RCC_voidEnableClock(t_APB2, APB2ENR_IOPCEN);
+			RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPCEN);
 			break;
 		default:
 			break;
@@ -38,11 +38,11 @@ void SSD_voidInit(t_SSD cpy_SSD){
 
         // Enable Clock for Control pins
     	#if SSD_SELECTION_PORT == PORTA
-        	RCC_voidEnableClock(t_APB2, APB2ENR_IOPAEN);
+        	RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPAEN);
         #elif SSD_SELECTION_PORT == PORTB
-        	RCC_voidEnableClock(t_APB2, APB2ENR_IOPBEN);
+        	RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPBEN);
         #elif SSD_SELECTION_PORT == PORTC
-        	RCC_voidEnableClock(t_APB2, APB2ENR_IOPCEN);
+        	RCC_voidEnableClock(t_APB2, RCC_APB2ENR_IOPCEN);
         #endif
 
         // initialize O/P configuration for control pins
