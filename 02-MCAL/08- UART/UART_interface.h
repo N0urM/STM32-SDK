@@ -1,7 +1,7 @@
 /********************************************************/ 
 /* Author : Nourhan Mansour                             */
-/* Date   : 21/9/2020                                   */
-/* Version: 1.0                                         */
+/* Date   : 24/9/2020                                   */
+/* Version: 2.0                                         */
 /* File   : UART_interface.h                            */
 /********************************************************/ 
 #ifndef UART_INTERFACE_H
@@ -33,8 +33,7 @@ void UART_voidInit();
                    cpy_arr: array of data to transmit
     Return value : none
 ***************************************************************/
-
-void UART_voidTransmitSync(UART_CH cpy_ch , u8 cpy_arr[] );
+void UART_voidTransmit_Sync(UART_CH cpy_ch , u8 cpy_arr[] );
 
 /*************************************************************
     Function Name: UART_u8RecieveSync
@@ -43,6 +42,28 @@ void UART_voidTransmitSync(UART_CH cpy_ch , u8 cpy_arr[] );
     Parameters   : cpy_ch : Specify which UART channel
     Return value : byte recieved from UART CH
 ***************************************************************/
-u8 UART_u8RecieveSync(UART_CH cpy_ch);
+u8 UART_u8Recieve_Sync(UART_CH cpy_ch);
+
+
+/*************************************************************
+    Function Name: UART_voidTransmit_Async
+    Description  : Add data to transmition queue of UART CH 
+    Parameters   : cpy_ch  : Specify which UART channel
+                   cpy_data: data to transmit
+    Return value : none
+***************************************************************/
+void UART_voidTransmit_Async(UART_CH cpy_ch , u8 cpy_data_to_transmit  );
+
+/*************************************************************
+    Function Name: UART_u8RecieveA sync
+    Description  : Store a Recieved char of data through UART CH 
+                   in the data buffer 
+    Parameters   : cpy_ch : Specify which UART channel
+                   data_buffer: location of array to store recieved
+                                data
+    Return value : NONE
+***************************************************************/
+void UART_u8Recieve_Async(UART_CH cpy_ch , u8 data_buffer[255]);
+
 
 #endif // End Of File

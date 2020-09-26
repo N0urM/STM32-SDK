@@ -1,7 +1,7 @@
 /********************************************************/ 
 /* Author : Nourhan Mansour                             */
-/* Date   : 21/9/2020                                   */
-/* Version: 1.0                                         */
+/* Date   : 24/9/2020                                   */
+/* Version: 2.0                                         */
 /* File   : UART_config.h                               */
 /********************************************************/ 
 #ifndef UART_CONFIG_H
@@ -14,7 +14,7 @@ typedef enum {
     BPS_9600,           
     BPS_19200,          
     BPS_57600,          
-    BPS_11500,          
+    BPS_115200,          
 }BAUDRATE_t;
 
 typedef enum {

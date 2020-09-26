@@ -1,12 +1,13 @@
 /********************************************************/ 
 /* Author : Nourhan Mansour                             */
-/* Date   : 21/9/2020                                   */
-/* Version: 1.0                                         */
+/* Date   : 24/9/2020                                   */
+/* Version: 2.0                                         */
 /* File   : UART_private.h                              */
 /********************************************************/ 
 #ifndef UART_PRIVATE_H
 #define UART_PRIVATE_H
 
+#define UART_NO_OF_CH       3
 typedef struct 
 {
     volatile u32 SR;
@@ -18,14 +19,14 @@ typedef struct
     volatile u32 GTPR;
 }t_UART;
 
-volatile t_UART * UARTx [5] = {
+volatile t_UART * UARTx [UART_NO_OF_CH] = {
     0x40013800,
     0x40004400,
     0x40004800,
-    0x40004C00,
-    0x40005000,
 };
 
+u8 * Recived_Data_buffer    [UART_NO_OF_CH];
+u8 Transmitted_Data_buffer[UART_NO_OF_CH][256];
 /********** Registers Bits *******************/ 
 
 #define USART_CR1_SBK           0

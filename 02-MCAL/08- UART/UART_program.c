@@ -1,7 +1,7 @@
 /********************************************************/ 
 /* Author : Nourhan Mansour                             */
-/* Date   : 21/9/2020                                   */
-/* Version: 1.0                                         */
+/* Date   : 24/9/2020                                   */
+/* Version: 2.0                                         */
 /* File   : UART_program.c                              */
 /********************************************************/ 
 
@@ -10,11 +10,16 @@
 #include "BIT_MATH.h"
 
 // 2- include interface file of needed lower layers
+#include "NVIC_interface.h"
 
 // 3- include driver files
 #include "UART_interface.h"
 #include "UART_private.h"
 #include "UART_config.h"
+
+
+u8 Transmit_idx=0;
+u8 Receive_idx=0;
 
 void UART_voidInit()
 {
@@ -31,7 +36,7 @@ void UART_voidInit()
                 UARTx[i] -> BRR  = 0x1A1;
             } else if (user_configuration_t[i].baudrate == BPS_57600){
                 UARTx[i] -> BRR  = 0x8B;
-            }else if (user_configuration_t[i].baudrate == BPS_11500){
+            }else if (user_configuration_t[i].baudrate == BPS_115200){
                 UARTx[i] -> BRR  = 0x46;
             }
 
@@ -46,6 +51,17 @@ void UART_voidInit()
             }else if (user_configuration_t[i].transmitionMode == TRANSMIT_RECIEVE) {
                 SET_BIT(UARTx[i] -> CR1 , USART_CR1_TE);
                 SET_BIT(UARTx[i] -> CR1 , USART_CR1_RE);
+            }
+
+            // Parity Configuration 
+            if (user_configuration_t[i].parity == Even_Parity){
+                SET_BIT(UARTx[i] -> CR1 , USART_CR1_PCE);
+                CLR_BIT(UARTx[i] -> CR1 , USART_CR1_PS);
+
+            }else if (user_configuration_t[i].parity == Odd_Parity)
+            {
+                SET_BIT(UARTx[i] -> CR1 , USART_CR1_PCE);
+                SET_BIT(UARTx[i] -> CR1 , USART_CR1_PS);
             }
 
             // Enable UART
@@ -75,3 +91,77 @@ u8 UART_u8RecieveSync(UART_CH cpy_ch )
     return ( 0xFF & UARTx[cpy_ch] -> DR );
 }
 
+void UART_voidTransmit_Async(UART_CH cpy_ch , u8 cpy_data_to_transmit  )
+{
+	SET_BIT(UARTx[cpy_ch] -> CR1 , USART_CR1_TXEIE);
+    Transmitted_Data_buffer[cpy_ch][Transmit_idx] = cpy_data_to_transmit;
+    Transmit_idx++;
+}
+
+void UART_voidRecieve_Async(UART_CH cpy_ch , u8 data_buffer[])
+{
+	SET_BIT(UARTx[cpy_ch] -> CR1 , USART_CR1_RXNEIE);
+    Recived_Data_buffer[cpy_ch] = data_buffer;
+}
+
+void USART1_IRQHandler(void)
+{
+    UART_CH cpy_UART_ch = UART1_CH;
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_RXNE ) == 1){     // New Data recieved
+        Recived_Data_buffer[cpy_UART_ch][Receive_idx] = (0xFF & UARTx[cpy_UART_ch] -> DR);
+        Receive_idx++; 
+    }
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_TXE ) == 1){      //  Transmit Line ready to send data
+        if(Transmit_idx > 0 ){
+            UARTx[cpy_UART_ch] -> DR =  Transmitted_Data_buffer[cpy_UART_ch][--Transmit_idx];
+            while (GET_BIT (UARTx[cpy_UART_ch] -> SR , USART_SR_TC) == 0);
+
+        }
+    }
+    // Clear Status Register
+    UARTx[cpy_UART_ch] -> SR = 0 ;
+    NVIC_voidClearPendingFlag(USART1);
+}
+
+
+void USART2_IRQHandler(void)
+{
+    UART_CH cpy_UART_ch = UART2_CH;
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_RXNE ) == 1){     // New Data recieved
+        Recived_Data_buffer[cpy_UART_ch][Receive_idx] = (0xFF & UARTx[cpy_UART_ch] -> DR);
+        Receive_idx++; 
+    }
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_TXE ) == 1){      //  Transmit Line ready to send data
+        if(Transmit_idx > 0 ){
+            UARTx[cpy_UART_ch] -> DR =  Transmitted_Data_buffer[cpy_UART_ch][--Transmit_idx];
+            while (GET_BIT (UARTx[cpy_UART_ch] -> SR , USART_SR_TC) == 0);
+
+        }
+    }
+    // Clear Status Register
+    UARTx[cpy_UART_ch] -> SR = 0 ;
+    NVIC_voidClearPendingFlag(USART1);
+
+    
+}
+
+
+void USART3_IRQHandler(void)
+{
+    UART_CH cpy_UART_ch = UART3_CH;
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_RXNE ) == 1){     // New Data recieved
+        Recived_Data_buffer[cpy_UART_ch][Receive_idx] = (0xFF & UARTx[cpy_UART_ch] -> DR);
+        Receive_idx++; 
+    }
+    if (GET_BIT(UARTx[cpy_UART_ch] -> SR , USART_SR_TXE ) == 1){      //  Transmit Line ready to send data
+        if(Transmit_idx > 0 ){
+            UARTx[cpy_UART_ch] -> DR =  Transmitted_Data_buffer[cpy_UART_ch][--Transmit_idx];
+            while (GET_BIT (UARTx[cpy_UART_ch] -> SR , USART_SR_TC) == 0);
+
+        }
+    }
+    // Clear Status Register
+    UARTx[cpy_UART_ch] -> SR = 0 ;
+    NVIC_voidClearPendingFlag(USART1);
+    
+}
