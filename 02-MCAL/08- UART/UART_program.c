@@ -86,9 +86,22 @@ void UART_voidTransmitSync(UART_CH cpy_ch , u8 cpy_arr[] )
 
 u8 UART_u8RecieveSync(UART_CH cpy_ch )
 {
-    while (GET_BIT (UARTx[cpy_ch] -> SR , USART_SR_RXNE) == 0);
+    u8 local_RecievedData = 0 ;
+    u8 local_timeout = 0;
+    while (GET_BIT (UARTx[cpy_ch] -> SR , USART_SR_RXNE) == 0)
+    {   
+        if(local_timeout++ > 1000){
+            local_RecievedData = 255; 
+            break;
+        }
+
+    }
     CLR_BIT(UARTx[cpy_ch] -> SR , USART_SR_RXNE);
-    return ( 0xFF & UARTx[cpy_ch] -> DR );
+    if (local_RecievedData != 255 ){
+        local_RecievedData = 0xFF & UARTx[cpy_ch] -> DR;
+    }
+
+    return local_RecievedData;
 }
 
 void UART_voidTransmit_Async(UART_CH cpy_ch , u8 cpy_data_to_transmit  )
