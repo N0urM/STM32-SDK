@@ -87,10 +87,10 @@ void UART_voidTransmitSync(UART_CH cpy_ch , u8 cpy_arr[] )
 u8 UART_u8RecieveSync(UART_CH cpy_ch )
 {
     u8 local_RecievedData = 0 ;
-    u8 local_timeout = 0;
+    u16 local_timeout = 0;
     while (GET_BIT (UARTx[cpy_ch] -> SR , USART_SR_RXNE) == 0)
     {   
-        if(local_timeout++ > 1000){
+        if(local_timeout++ > 10000){
             local_RecievedData = 255; 
             break;
         }
