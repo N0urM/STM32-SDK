@@ -1,7 +1,7 @@
 /********************************************************/ 
 /* Author : Nourhan Mansour                             */
-/* Date   : 27/9/2020                                   */
-/* Version: 1.0                                         */
+/* Date   : 3/10/2020                                   */
+/* Version: 2.0                                         */
 /* File   : TFT_program.c                               */
 /********************************************************/ 
 
@@ -53,7 +53,7 @@ void TFT_voidInit(void)
 void TFT_voidDisplayImage(const u16 * cpy_ptr_img)
 {
     u16 local_counter=0;
-    const u8 totalSize = TFT_X_SIZE * TFT_Y_SIZE;
+    const u16 totalSize = TFT_X_SIZE * TFT_Y_SIZE;
     
     TFT_voidSet_X_Y (0 , TFT_X_SIZE , 0 , TFT_Y_SIZE);
     
@@ -66,7 +66,7 @@ void TFT_voidDisplayImage(const u16 * cpy_ptr_img)
 
 void TFT_voidFillColor (u16 copy_FillColor){
     u16 local_counter=0;
-    const u8 totalSize = TFT_X_SIZE * TFT_Y_SIZE;
+    const u16 totalSize = TFT_X_SIZE * TFT_Y_SIZE;
     
     TFT_voidSet_X_Y (0 , TFT_X_SIZE , 0 , TFT_Y_SIZE);
     
@@ -81,15 +81,27 @@ void TFT_voidDrawRect (u8 x1 , u8 x2 , u8 y1 , u8 y2 , u16 copy_FillColor)
     if (x1 < x2 && y1 < y2 && x2 <= TFT_X_SIZE && y2 <= TFT_Y_SIZE)
     {
         u16 local_counter=0;
-        const u8 totalSize = (x2 - x1) * (y2 - y1);
-        
+        const u16 totalSize = (x2 - x1) * (y2 - y1);
+
         TFT_voidSet_X_Y (x1 , x2 , y1 , y2);
-        
+
         for(local_counter = 0 ; local_counter < totalSize ; local_counter++)
         {
             TFT_voidWriteWord(copy_FillColor);
         }
     }
+}
+
+void TFT_voidPrintText (u8 x , u8 y , u8 * text , u16 Textcolor , u16 BackgroudColor ){
+	while (*text != '\0'){
+
+		TFT_voidDrawLetter(x , y , *text++ , Textcolor , BackgroudColor );
+		x+= ( MAX_CHAR_WIDTH +1 );
+		if (x> TFT_X_SIZE){
+			x = 0;
+			y+= (MAX_CHAR_HEIGHT * 2);
+		}
+	}
 }
 
 /*******************************************************************/
@@ -154,4 +166,34 @@ static void TFT_voidWriteWord(u16 copy_Word)
     u8 lowByte =  copy_Word & 0x00ff;
     TFT_voidWriteData(highByte);
     TFT_voidWriteData(lowByte);
+}
+
+
+static void TFT_voidDrawPixel (u8 x , u8 y , u16 Color)
+{
+	TFT_voidSet_X_Y(x , x+1 , y , y+1);
+	TFT_voidWriteWord(Color);
+}
+
+void TFT_voidDrawLetter (u8 x1 ,u8 y1 , u16 Letter , u16 copy_FillColor  , u16 copy_BackColor )
+{
+    if ( x1 <= TFT_X_SIZE && y1 <= TFT_Y_SIZE)
+    {
+        u16 i = 0 , j = 0 ;
+        Letter = Letter - STARTING_CHAR;
+        for(i = 0 ; i < MAX_CHAR_WIDTH ; i++)
+        {
+            for (j = 0 ; j< MAX_CHAR_HEIGHT ; j++)
+            {
+                if ( GET_BIT (CharArray [Letter] [i]  , j ) & 0x1)
+                {
+                	TFT_voidDrawPixel(x1+i , y1+j , copy_FillColor);
+                }
+                else
+                {
+                	TFT_voidDrawPixel(x1+i , y1+j , copy_BackColor);
+                }
+            }
+        }
+    }
 }
