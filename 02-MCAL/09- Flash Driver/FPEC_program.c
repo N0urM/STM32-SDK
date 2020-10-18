@@ -48,8 +48,8 @@ void FPEC_voidWriteData ( u16 * cpy_address , u16 * cpy_data , u8 cpy_length)
         // wait BSY flag
         while ( GET_BIT (FPEC->SR , FLASH_SR_BSY) == 1 );
         /* EOP */
-		SET_BIT(FPEC->SR,5);
-		CLR_BIT(FPEC->CR,0);
+		SET_BIT(FPEC->SR,FLASH_SR_EOP);
+        CLR_BIT(FPEC->CR,FLASH_CR_PER);
 
     }
    
