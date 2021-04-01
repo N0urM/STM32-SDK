@@ -204,13 +204,13 @@ void GPIO_voidSetPullType (t_PORT cpy_port , t_PIN cpy_pin , u8 pull_type){
         switch (cpy_port)
         {
         case PORTA:
-            SET_BIT(GPIOA_BSRR , cpy_pin);                  // Activate internal pull up
+            SET_BIT(GPIOA_ODR , cpy_pin);                  // Activate internal pull up
             break;
         case PORTB:
-            SET_BIT(GPIOB_BSRR , cpy_pin);                  // Activate internal pull up
+            SET_BIT(GPIOB_ODR , cpy_pin);                  // Activate internal pull up
             break;
         case PORTC:
-            SET_BIT(GPIOC_BSRR , cpy_pin);                  // Activate internal pull up
+            SET_BIT(GPIOC_ODR , cpy_pin);                  // Activate internal pull up
             break;
         default:
             break;
@@ -221,13 +221,13 @@ void GPIO_voidSetPullType (t_PORT cpy_port , t_PIN cpy_pin , u8 pull_type){
         switch (cpy_port)
         {
         case PORTA:
-            SET_BIT(GPIOA_BRR , cpy_pin);                  // Activate internal pull down
+            CLR_BIT(GPIOA_ODR , cpy_pin);                  // Activate internal pull down
             break;
         case PORTB:
-            SET_BIT(GPIOB_BRR , cpy_pin);                  // Activate internal pull down
+            CLR_BIT(GPIOB_ODR , cpy_pin);                  // Activate internal pull down
             break;
         case PORTC:
-            SET_BIT(GPIOC_BRR , cpy_pin);                  // Activate internal pull down
+            CLR_BIT(GPIOC_ODR , cpy_pin);                  // Activate internal pull down
             break;
         default:
             break;
